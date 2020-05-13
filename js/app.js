@@ -17,7 +17,7 @@
             this.redirect(first);
         });
 
-        this.get('#/kerala/:district', function (context) {
+        this.get('#/pune/:district', function (context) {
             var district = this.params['district'],
                 map = getOrCreateMap(district);
             $('ul.nav a[data-target="#' + district + '"]').tab('show');
