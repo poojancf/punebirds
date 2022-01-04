@@ -1,6 +1,6 @@
 (function ($, BirdCount) {
 
-    const app = $.sammy('#main', function () {
+   const app = $.sammy('#main', function () {
         const maps = {};
 
         function getOrCreateMap(id) {
@@ -13,12 +13,12 @@
         }
 
         this.get('#/', function (context) {
-            const first = $('ul.nav a:first').attr('href');
+             const first = $('ul.nav a:first').attr('href');
             this.redirect(first);
         });
 
         this.get('#/pune/:district', function (context) {
-            const district = this.params['district'],
+          const district = this.params['district'],
                 map = getOrCreateMap(district);
             $('ul.nav a[data-target="#' + district + '"]').tab('show');
             map.recenter();
@@ -28,7 +28,7 @@
     $(window).load(function () {
         app.run('#/');
 
-        const navbar = $("#navbar");
+       const navbar = $("#navbar");
         $('ul.nav a').click(function (e) {
             app.setLocation($(this).attr('href'));
             navbar.collapse('hide');
