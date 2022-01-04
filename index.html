@@ -19,15 +19,15 @@
     <script>
         const API_KEY = "AIzaSyAeeo1Jn_HeqPiUgupi2ervBs3MtUWB9HY";
         const MAP_DATA = {
-            winter: {
+            winter2021: {
                 mapSpreadSheetId: '1OcNrBrfPN4YeLWefvqj54qIzBWtPe9DpJGF53dE7xC0',
-                name: 'Winter',
-                mapContainerId: 'winter'
+                name: 'Winter 2021',
+                mapContainerId: 'winter2021'
             },
-            summer: {
+            summer2021: {
                 mapSpreadSheetId: '186c_MP9c5IotQY4D8_b7G2hi7rOQqIjTLt1AUZ4KPEI',
-                name: 'Summer',
-                mapContainerId: 'summer'
+                name: 'Summer 2021',
+                mapContainerId: 'summer2021'
             }         
         };
     </script>
@@ -55,10 +55,10 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav nav-pills">
                 <li role="presentation">
-                    <a href="#/pune/summer" role="tab" data-target="#summer" data-toggle="tab">Summer</a>
+                    <a href="#/pune/summer2021" role="tab" data-target="#summer2021" data-toggle="tab">Summer 2021</a>
                 </li>
                 <li role="presentation">
-                    <a href="#/pune/winter" role="tab" data-target="#winter" data-toggle="tab">Winter</a>
+                    <a href="#/pune/winter2021" role="tab" data-target="#winter2021" data-toggle="tab">Winter 2021</a>
                 </li>
             </ul>
         </div>
@@ -66,8 +66,8 @@
 </nav>
 <div class="map-parent container-fluid">
     <div class="tab-content">
-        <div role="tabpanel" class="tab-pane map-container" id="summer"></div>
-        <div role="tabpanel" class="tab-pane map-container" id="winter"></div>
+        <div role="tabpanel" class="tab-pane map-container" id="summer2021"></div>
+        <div role="tabpanel" class="tab-pane map-container" id="winter2021"></div>
       </div>
 </div>
 <div class="modal fade page-alert-box" tabindex="-1" role="dialog">
