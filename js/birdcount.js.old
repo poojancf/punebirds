@@ -2,7 +2,7 @@
  * Author vj
  * Licensed under MIT license.
  */
-const BirdCount = (function () {
+const BirdCount = BirdCount || (function () {
     const $ = jQuery, //wp noConflicts $. Capture $ in this scope
         CELL_PATTERN = /([A-Z]+)(\d+)/,
         REVIEWED_PATTERN = ['yes', 'y', 'reviewed'],
@@ -76,25 +76,9 @@ const BirdCount = (function () {
                 : false;
         },
 
-        getStrokeWeight: function () {
-            if (this.isReviewed()) {
-                return 1;
-            }
-
-            switch (this.getValue('priority')) {
-                case 'Highest':
-                    return 4;
-                case 'High':
-                    return 4;
-                default:
-                    return 1;
-            }
-
-        },
-
         getFillColor: function () {
             if (this.isReviewed()) {
-                return '#ba33ff';
+                return '#660d94';
             }
 
             switch (this.getValue('status')) {
@@ -128,9 +112,10 @@ const BirdCount = (function () {
         customMapControls: null,
         geoLocation: new GeoLocationMarker.GeoLocationMarker(),
 
-        getSheetData: function (page, sheetData, sheetDataKey, drawMapAfter) {
+       getSheetData: function (page, sheetData, sheetDataKey, drawMapAfter) {
+
             $.ajax({
-                url: this.getMapDataUrl(page),
+               url: this.getMapDataUrl(page),
                 jsonp: "callback",
                 dataType: "jsonp",
                 context: this,
@@ -146,9 +131,8 @@ const BirdCount = (function () {
                     drawMapAfter();
                 }
             });
-        },
 
-        render: function () {
+            render: function () {
             const sheetData = {},
                 drawMapAfter = _.after(3, _.bind(this.drawMap, this, sheetData));
 
@@ -188,9 +172,9 @@ const BirdCount = (function () {
                     return rectangleInfo.getValue('clusterName');
                 })
                 .map(function (rectanglesInCluster, clusterName) {
-                    const latLongs = [];
+                     const latLongs = [];
                     _.each(rectanglesInCluster, function (rectangle) {
-                        const bounds = rectangle.getValue('bounds'),
+                         const bounds = rectangle.getValue('bounds'),
                             ne = bounds.getNorthEast(),
                             sw = bounds.getSouthWest(),
                             nw = new google.maps.LatLng(ne.lat(), sw.lng()),
@@ -230,14 +214,14 @@ const BirdCount = (function () {
         },
 
         _createRectangleInfo: function (rows) {
-            const ret = {};
+           const ret = {};
             _(rows).each(function (row) {
-                ret[row[0]] = new RectangleInfo({
+                 ret[row[0]] = new RectangleInfo({
                     bounds: new google.maps.LatLngBounds(
-                        new google.maps.LatLng(row[2], row[1]),
+                         new google.maps.LatLng(row[2], row[1]),
                         new google.maps.LatLng(row[6], row[5])),
                     subCell: row[0]
-                });
+                   });
             });
             return ret;
         },
@@ -248,7 +232,7 @@ const BirdCount = (function () {
                 if (rectangleInfo) {
                     rectangleInfo.setValue('reviewed', row[6]);
                     rectangleInfo.setValue('status', row[7]);
-                    rectangleInfo.setValue('priority', row[8]);
+                    rectangleInfo.setValue('priority', row[8]);                   
                     rectangleInfo.setValue('listUrl', {
                         1: this._fixPartialBirdListURL(row[2]),
                         2: this._fixPartialBirdListURL(row[3]),
@@ -265,9 +249,9 @@ const BirdCount = (function () {
                 return row;
             });
             _(rows).each(function (row) {
-                const rectangleInfo = this.rectangleInfos[row[0]];
+                 const rectangleInfo = this.rectangleInfos[row[0]];
                 if (rectangleInfo) {
-                    rectangleInfo.setValue('clusterName', row[1]);
+                     rectangleInfo.setValue('clusterName', row[1]);
                     rectangleInfo.setValue('owner', row[5]);
                     rectangleInfo.setValue('site', row[2]);
                 }
@@ -290,7 +274,7 @@ const BirdCount = (function () {
                 const rectangle = new google.maps.Rectangle({
                         strokeColor: '#505050',
                         strokeOpacity: 0.8,
-                        strokeWeight: rectangleInfo.getStrokeWeight(),
+                        strokeWeight: 1,
                         fillColor: rectangleInfo.getFillColor(),
                         fillOpacity: rectangleInfo.getFillOpacity(),
                         map: this.map,
@@ -322,14 +306,14 @@ const BirdCount = (function () {
         },
 
         _showInfoWindow: function (rectangleInfo) {
-            const content = infoBoxTemplate(rectangleInfo.options);
+             const content = infoBoxTemplate(rectangleInfo.options);
             this.infoBox.setContent(content);
             this.infoBox.setPosition(rectangleInfo.getValue('bounds').getCenter());
             this.infoBox.open(this.map);
         },
 
         _showHideLabels: function () {
-            const showLabel = this.map.getZoom() > 12;
+           const showLabel = this.map.getZoom() > 12;
             _(this.labels).each(function (label) {
                 label.setMap(showLabel ? this.map : null);
             }, this);
@@ -384,7 +368,7 @@ const BirdCount = (function () {
         },
 
         _addTextNode: function (parentNode, elem, value, ns) {
-            const ownerDocument = parentNode.ownerDocument,
+            var ownerDocument = parentNode.ownerDocument,
                 node = ownerDocument.createElementNS(ns, elem),
                 txtNode = ownerDocument.createTextNode("");
             txtNode.nodeValue = value;
@@ -407,7 +391,7 @@ const BirdCount = (function () {
         },
 
         polygonPathsFromBounds: function (bounds) {
-            const path = new google.maps.MVCArray(),
+             const path = new google.maps.MVCArray(),
                 ne = bounds.getNorthEast(),
                 sw = bounds.getSouthWest();
             let pathString = '';
@@ -424,7 +408,7 @@ const BirdCount = (function () {
         },
 
         addPlacemark: function (documentNode, options) {
-            const ownerDocument = documentNode.ownerDocument,
+           const ownerDocument = documentNode.ownerDocument,
                 placemarkNode = ownerDocument.createElementNS(NS_KML, 'Placemark'),
                 descriptionNode = ownerDocument.createElementNS(NS_KML, 'description'),
                 polygonNode = ownerDocument.createElementNS(NS_KML, 'Polygon'),
@@ -462,11 +446,11 @@ const BirdCount = (function () {
             this._addKmlStyles(documentNode, 'cluster', '66ff9900');
 
             _(this.rectangleInfos).each(function (rectangleInfo) {
-                const options = {
+                  const options = {
                     pathString: this.polygonPathsFromBounds(rectangleInfo.options.bounds),
                     description: kmlDescription(rectangleInfo.options),
                     name: rectangleInfo.options.subCell + (rectangleInfo.options.clusterName ? ' ' + rectangleInfo.options.clusterName : ''),
-                    style: rectangleInfo.isReviewed() ? 'reviewed' : ('status-' + rectangleInfo.getValue('status')),
+                     style: rectangleInfo.isReviewed() ? 'reviewed' : ('status-' + rectangleInfo.getValue('status')),
                     drawOrder: 2
                 };
                 this.addPlacemark(documentNode, options);
@@ -474,12 +458,12 @@ const BirdCount = (function () {
 
             if (this.showCluster) {
                 _(this.clusterPolygons).each(function (clusterPolygon) {
-                    let pathString = '';
+                   let pathString = '';
                     clusterPolygon.polygon.getPath().forEach(function (latLng, idx) {
                         pathString += [latLng.lng(), latLng.lat(), 0].join(",");
                         pathString += ' ';
                     });
-                    const options = {
+                     const options = {
                         pathString: pathString,
                         description: '',
                         name: clusterPolygon.clusterName,
@@ -512,7 +496,7 @@ const BirdCount = (function () {
         },
 
         _parseRows: function (entries) {
-            const [header, ...rows] = entries;
+        const [header, ...rows] = entries;
             return rows;
         },
 
@@ -521,11 +505,11 @@ const BirdCount = (function () {
                 return a.lat() != b.lat() ? a.lat() - b.lat() : a.lng() - b.lng();
             });
 
-            const n = points.length;
-            const hull = [];
+           const n = points.length;
+           const hull = [];
 
             for (let i = 0; i < 2 * n; i++) {
-                const j = i < n ? i : 2 * n - 1 - i;
+               const j = i < n ? i : 2 * n - 1 - i;
                 while (hull.length >= 2 && this.removeMiddle(hull[hull.length - 2], hull[hull.length - 1], points[j]))
                     hull.pop();
                 hull.push(points[j]);
@@ -549,15 +533,14 @@ const BirdCount = (function () {
     return {
         BirdMap: BirdMap,
         createMap: function (options) {
-            options = _.extend({}, options);
+             options = _.extend({}, options);
             const map = new BirdCount.BirdMap({
                 zoom: 10,
                 mapContainerId: options.mapContainerId,
                 mapSpreadSheetId: options.mapSpreadSheetId,
                 name: options.name,
-                alert: function (message) {
+               alert: function (message) {
                     $('.page-alert-box .modal-body').html('<p>' + message + '</p>')
-                    $('.page-alert-box').modal('show');
                 }
             });
             map.render();
