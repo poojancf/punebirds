@@ -22,12 +22,12 @@
             winter: {
                 mapSpreadSheetId: '1OcNrBrfPN4YeLWefvqj54qIzBWtPe9DpJGF53dE7xC0',
                 name: 'Winter',
-                mapContainerId: 'july'
+                mapContainerId: 'winter'
             },
             summer: {
                 mapSpreadSheetId: '186c_MP9c5IotQY4D8_b7G2hi7rOQqIjTLt1AUZ4KPEI',
                 name: 'Summer',
-                mapContainerId: 'february'
+                mapContainerId: 'summer'
             }         
         };
     </script>
@@ -55,10 +55,10 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav nav-pills">
                 <li role="presentation">
-                    <a href="#/pune/summer" role="tab" data-target="#february" data-toggle="tab">Summer</a>
+                    <a href="#/pune/summer" role="tab" data-target="#summer" data-toggle="tab">Summer</a>
                 </li>
                 <li role="presentation">
-                    <a href="#/pune/winter" role="tab" data-target="#july" data-toggle="tab">Winter</a>
+                    <a href="#/pune/winter" role="tab" data-target="#winter" data-toggle="tab">Winter</a>
                 </li>
             </ul>
         </div>
@@ -66,8 +66,8 @@
 </nav>
 <div class="map-parent container-fluid">
     <div class="tab-content">
-        <div role="tabpanel" class="tab-pane map-container" id="february"></div>
-        <div role="tabpanel" class="tab-pane map-container" id="july"></div>
+        <div role="tabpanel" class="tab-pane map-container" id="summer"></div>
+        <div role="tabpanel" class="tab-pane map-container" id="winter"></div>
       </div>
 </div>
 <div class="modal fade page-alert-box" tabindex="-1" role="dialog">
@@ -79,7 +79,9 @@
                 </button>
                 <h4 class="modal-title">Warning</h4>
             </div>
-            <div class="modal-body"></div>
+            <div class="modal-body">
+                <p>The sheets seem to be out of order. Please contact the administrator.</p>
+            </div>
         </div>
     </div>
 </div>
